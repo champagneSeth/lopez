@@ -22,7 +22,7 @@ app.use(bodyParser.raw({
 ,   limit   : '50mb'
 }));
 
-app.use(express.static(__dirname + '/resources'));
+app.use(express.static(__dirname + '/public'));
 
 var port = process.env.PORT || 9000;
 
