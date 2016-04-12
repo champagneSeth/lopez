@@ -9,11 +9,6 @@ h1 {
     text-align : center;
 }
 
-canvas {
-    background-color : olivedrab;
-    border           : ridge;
-}
-
 .center {
     width   : 60%;
     margin  : 0 auto;
