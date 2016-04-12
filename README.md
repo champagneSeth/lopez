@@ -8,7 +8,7 @@ This is a modified version of the [WeselyWebService](https://github.com/atreayou
 - [CMU Sphinx common libraries](https://github.com/cmusphinx/sphinxbase)
 - [PocketSphinx 5prealpha](https://github.com/cmusphinx/pocketsphinx)
 
-## Usage Instructions
+## Basic Usage Instructions
 1. Project should be installed on a Raspberry Pi with wireless connectivity.
 2. Sphinxbase and PocketSphinx should both be installed onto the Pi.
 3. Use `$ ./sonus/compile.sh` to build the sonus.c recognizer.
