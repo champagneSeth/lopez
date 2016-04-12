@@ -12,7 +12,7 @@ function parseCommands(data) {
     ,   response    = []
     ;
 
-    data.devices.forEach(device, i) {
+    data.devices.forEach(function(device, i) {
         var name        = device.deviceName
         ,   phrases     = Object.keys(device.commands)
         ,   project     = devices.commands
@@ -28,7 +28,7 @@ function parseCommands(data) {
         ,   phrases     : phrases
         ,   commands    : commands 
         }
-    }
+    });
 
     return response;
 }
