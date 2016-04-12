@@ -5,31 +5,33 @@
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
 	<link rel="stylesheet" href="css/lopez.css"/>
 </head>
-<body>       
-    <h1>Lopez the bilingual robot</h1>
+<body>
+    <div class="container">
+        <h1>Lopez the bilingual robot</h1>
 
-    <div id="controls" class="center">
-        <button id="forward" class="btn btn-default">Forward</button>
-        <button id="backward" class="btn btn-default">Backward</button>
-        <button id="left" class="btn btn-default">Left</button>
-        <button id="right" class="btn btn-default">Right</button>
-    </div>
+        <div id="controls" class="row">
+            <button id="forward" class="btn btn-default">Forward</button>
+            <button id="backward" class="btn btn-default">Backward</button>
+            <button id="left" class="btn btn-default">Left</button>
+            <button id="right" class="btn btn-default">Right</button>
+        </div>
 
-    <div class="radio center">
-        <button id="record" class="btn btn-primary">Record</button>
-        <label>
-            <input type="radio" name="language" value="engl">
-            English
-        </label>
-        <label>
-            <input type="radio" name="language" value="span">
-            Spanish
-        </label>
-    </div>
+        <div class="row radio">
+            <button id="record" class="btn btn-primary">Record</button>
+            <label>
+                <input type="radio" name="language" value="engl">
+                English
+            </label>
+            <label>
+                <input type="radio" name="language" value="span">
+                Spanish
+            </label>
+        </div>
 
-    <br/>
-    <div class="center">
-        <img alt="Vic and Kanye" src="vic_and_kanye.jpg"/>
+        <br/>
+        <div class="row">
+            <img alt="Vic and Kanye" src="vic_and_kanye.jpg"/>
+        </div>
     </div>
 
     <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script> 
