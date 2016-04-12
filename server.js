@@ -22,7 +22,7 @@ app.use(bodyParser.raw({
 ,   limit   : '50mb'
 }));
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/resources'));
 
 var port = process.env.PORT || 9000;
 
@@ -33,12 +33,7 @@ var router = express.Router();
 
 router.get('/', function (req, res) {
     console.log('GET Success! status code 200');
-    res.status(200).sendfile('public/index.html');
-});
-
-router.get('/lopez', function (req, res) {
-    console.log('GET Success! status code 200');
-    res.status(200).sendfile('lopez.html');
+    res.status(200).sendfile('index.html');
 });
 
 //NOTE: This is the endpoint for passing data for the WAV/audio files
