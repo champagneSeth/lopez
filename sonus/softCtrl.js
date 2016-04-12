@@ -1,30 +1,30 @@
-var fs      = require('fs')
-,   voco    = require('./voconomo.js')
-;
+var voconomo = require('./voconomo.js');
 
 module.exports = {
-    JSONin      : JSONparse
+    register    : parseCommands
 ,   match       : matchCommand
 ,   getCommand  : getCommand
 }
 
 //parse the JSON object
-function JSONparse(data) {
-    var keys        = Object.keys(data.devices);
-    var response    = [];
+function parseCommands(data) {
+    var keys        = Object.keys(data.devices)
+    ,   response    = []
+    ;
 
-    for (var i = 0; i < data.devices.length; i++) {
-        var device      = data.devices[i].deviceName;
-        var phrases     = Object.keys(data.devices[i].commands);
-        var object      = data.devices[i].commands;
-        var commands    = []
+    data.devices.forEach(device, i) {
+        var name        = device.deviceName
+        ,   phrases     = Object.keys(device.commands)
+        ,   project     = devices.commands
+        ,   commands    = []
+        ;
 
         phrases.forEach(function (phrase) {
-            commands.push(object[phrase]);
+            commands.push(project[phrase]);
         })
 
         response[i] = {
-            name        : device
+            name        : name
         ,   phrases     : phrases
         ,   commands    : commands 
         }
@@ -55,7 +55,7 @@ function getCommand(fileName, device, callBack) {
 
     console.log('\n' + device.name);
 
-    voco(fileName, function (result) {
+    voconomo(fileName, function (result) {
         device.phrases.forEach(function (phrase, i) {
             if (!success && result.search(phrase) != -1) {
                 success = true;

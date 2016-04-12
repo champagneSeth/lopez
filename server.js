@@ -1,55 +1,12 @@
-var express     = require('express')
-,   app         = express()
-,   bodyParser  = require('body-parser')
-,   fs          = require('fs')
+var fs          = require('fs')
 ,   http        = require('http')
-,   mongoose    = require('mongoose')
-,   crypto      = require('crypto')
-,   nodemailer  = require('nodemailer')
-,   uuid        = require('uuid')
+,   express     = require('express')
+,   bodyParser  = require('body-parser')
 ,   softCtrl    = require('./sonus/softCtrl.js')
-,   mailOptions
-,   host
-,   link
+,   sickascii   = require('./sonus/sickascii.js')
 ;
 
-var smtpTransport = nodemailer.createTransport('SMTP', {
-    service : 'Gmail'
-,   auth    : {
-        user : 'w0526297'
-    ,   pass : 'Indian41'
-    }
-});
-
-mongoose.connection.on('open', function (ref) {
-    console.log('Connected to mongo server.');
-});
-
-mongoose.connection.on('error', function (err) {
-    console.log('Could not connect to mongo server!');
-    console.log(err);
-});
-
-var userSchema = new mongoose.Schema({
-    firstName   : String
-,   lastName    : String
-,   email       : String
-,   password    : String
-,   apiKey      : String
-,   salt        : String 
-,   verified    : Boolean
-});
-
-var commandSchema = new mongoose.Schema({
-    commands    : Object
-,   apiKey      : String
-});
-
-var Command = mongoose.model('Command', commandSchema);
-var User = mongoose.model('User', userSchema);
-
-// mongoose.connect('mongodb://pawn:password1234@ds045664.mongolab.com:45664/sonusjsdb');
-mongoose.connect('mongodb://localhost:27017/wesly');
+var app = express();
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -79,64 +36,9 @@ router.get('/', function (req, res) {
     res.status(200).sendfile('public/index.html');
 });
 
-router.get('/blackjack', function (req, res) {
+router.get('/lopez', function (req, res) {
     console.log('GET Success! status code 200');
-    res.status(200).sendfile('public/blackjack.html');
-});
-
-router.get('/toilet', function (req, res) {
-    console.log('GET Success! status code 200');
-    res.status(200).sendfile('public/toilet.html');
-});
-
-router.post('/api/signup', function (req, res) {
-    console.log('POST SUCCESS Status 200');
-    User.findOne({ email : req.body.email }, function (err, user) {
-        if (err) {
-            throw err;
-            console.log('error connecting to db');
-            res.status(401).json({
-                success : false
-            ,   message : 'Error connecting to database'
-            });
-        } 
-
-        if (user) {
-            console.log('user already exsists');
-            res.status(422).json({
-                success : false
-            ,   message : 'User already exsists'
-            });
-        } else {
-            var salt    = crypto.randomBytes(16).toString('base64')
-            ,   hash    = crypto.createHash('sha256').update(salt + req.body.password).digest('base64')
-            ,   apiKey  = uuid.v4()
-            ;
-
-            var newUser = new User({
-                firstName   : req.body.firstName
-            ,   lastName    : req.body.lastName
-            ,   email       : req.body.email
-            ,   password    : hash
-            ,   apiKey      : apiKey    
-            ,   salt        : salt 
-            ,   verified    : false    
-            });
-        
-            newUser.save(function(err) {
-                if (err) throw err;
-                console.log('User created!');
-            });
-
-            delete user;
-            console.log('User created');
-            res.status(201).json({
-                success     : true
-            ,   apiKey      : apiKey
-            ,   accountName : req.body.email
-            }); 
-        }
-    });
+    res.status(200).sendfile('lopez.html');
 });
 
 //NOTE: This is the endpoint for passing data for the WAV/audio files
@@ -158,7 +60,7 @@ router.post('/api/audio', function (req, res) {
             var userCommands = apiUser.commands;
 
             fileName = __dirname + '/sonus/wav/' + fileName;
-            devices = softCtrl.JSONin(JSON.parse(userCommands));
+            devices = softCtrl.register(JSON.parse(userCommands));
 
             fs.writeFile(fileName, contents, 'binary', function(err) {
                 if (err) {
@@ -249,59 +151,14 @@ router.get('/api/command', function (req, res) {
     });
 });
 
-router.get('/api/accountinfo', function (req, res) {
-    var apiKey = req.get('apiKey');
-    User.findOne({apiKey: apiKey}, function (err, userInfo) {
-        if (err) {
-            throw err;
-        } else if (!userInfo) {
-            res.status(400).json({
-                success : false
-            ,   message : 'Your api key is not recognized'
-            });         
-        } else {
-            Command.findOne({apiKey: apiKey}, function (err, commandList) {
-                if (err) {
-                    throw err;
-                } else if (!commandList) {
-                    res.status(200).json({
-                        success     : true
-                    ,   message     : 'Did not find any commands saved'
-                    ,   firstName   : userInfo.firstName
-                    ,   lastName    : userInfo.lastName
-                    ,   email       : userInfo.email
-                    ,   apiKey      : apiKey
-                    });            
-                } else {
-                    res.status(200).json({
-                        success     : true
-                    ,   message     : 'Commands recieved'
-                    ,   firstName   : userInfo.firstName
-                    ,   lastName    : userInfo.lastName
-                    ,   email       : userInfo.email
-                    ,   apiKey      : apiKey
-                    ,   Commands    : commandList.commands
-                    }); 
-                }
-            });
-        }   
-    });
-});
-
-
 app.use('/', router);
-var server = http.createServer(app);
-
-server.listen(port);
 
 // START THE SERVER
 // =============================================================================
-console.log('====================================');
-console.log(' _    _  ____  ___  ____  __   _  _ ');
-console.log('( \\/\\/ )( ___)/ __)( ___)(  ) ( \\/ )');
-console.log(' )    (  )__) \\__ \\ )__)  )(__ \\  / ');
-console.log('(__/\\__)(____)(___/(____)(____)(__)\n'); 
-console.log('====================================\n');
+var server = http.createServer(app);
+
+server.listen(port);
+sickascii.wesely();
 
 console.log('Magic happens on port ' + port);
 
