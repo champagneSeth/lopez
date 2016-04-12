@@ -42,23 +42,24 @@ router.post('/api/audio', function (req, res) {
     ,   contents    = req.body.file         || req.body
     ;
 
-    // fileName = __dirname + '/sonus/wav/' + fileName;
+    fileName = __dirname + '/sonus/wav/' + fileName;
     // devices = softCtrl.register(JSON.parse(userCommands));
+    devices = ['woo']
 
-    // fs.writeFile(fileName, contents, 'binary', function(err) {
-    //     if (err) {
-    //         console.log(err);
-    //     } else {
-    //         console.log('Audio received');
-    //         softCtrl.getCommand(fileName, devices[0], function (command) {
-    //             res.status(201).json({
-    //                 success : true
-    //             ,   message : command ? 'Audio recieved' : 'No command recognized'
-    //             ,   command : command
-    //             }); 
-    //         });
-    //     }
-    // });
+    fs.writeFile(fileName, contents, 'binary', function(err) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('Audio received');
+            softCtrl.getCommand(fileName, devices[0], function (command) {
+                res.status(201).json({
+                    success : true
+                ,   message : command ? 'Audio recieved' : 'No command recognized'
+                ,   command : command
+                }); 
+            });
+        }
+    });
 });
 
 app.use('/', router);
