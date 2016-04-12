@@ -1,7 +1,7 @@
 {
   "name": "lopez",
-  "description": "Web API for using Sonus",
-  "author": "Team Sonus",
+  "description": "Voice controlled bilingual robot.",
+  "author": "OVER 9PAO-SAND",
   "license": "MIT",
   "repository": 
   {
@@ -12,7 +12,6 @@
   "dependencies": 
   {
     "body-parser": "~1.14.1",
-    "express": "~4.0.0",
-    "uuid": "^2.0.1"
+    "express": "~4.0.0"
   }
 }
