@@ -1,5 +1,5 @@
 var spawn       = require('child_process').spawn
-,   sickascii   = require('sickascii.js')
+,   sickascii   = require('./sickascii.js')
 ;
 
 module.exports = function (wavFile, callBack) {
