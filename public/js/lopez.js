@@ -1,31 +1,57 @@
 
-var recording = false;
+var recording   = false;
+var reader      = new FileReader();
+
+// Set event handler to ajax call that posts audio
+reader.onloadend = function () {
+    var contents = reader.result;
+
+    // Post wav to server
+    $.ajax({
+        url         : '/audio'
+    ,   method      : 'POST'
+    ,   dataType    : 'json'
+    ,   contentType : 'application/json'
+    ,   data        : JSON.stringify({
+            fileName    : 'lopez.wav'
+        ,   file        : contents
+        ,   language    : getLanguage()
+        })
+
+    }).done(function (res) {
+        console.log(res.message);
+    });
+}
 
 function postAudioToWesly(blob) {
-    var reader = new FileReader();
+    // Called in audio.js
+    // Read audio as binary
+    reader.readAsBinaryString(blob);
+}
 
-    reader.onloadend = function () {
-        var contents = reader.result;
-
-        // post wav to server
+function postCommand(command) {
+    // callBack of click event for robot control buttons
+    return function () {
         $.ajax({
-            url         : 'api/audio'
+            url         : '/command'
         ,   method      : 'POST'
         ,   dataType    : 'json'
         ,   contentType : 'application/json'
         ,   data        : JSON.stringify({
-                fileName    : 'lopez.wav'
-            ,   file        : contents
+                command    : command
             })
+
         }).done(function (res) {
             console.log(res.message);
         });
     }
-
-    reader.readAsBinaryString(blob);
 }
 
-$('#record').on('click', function() {
+function getLanguage() {
+    return $('#engl').is(':checked') ? 'engl' : 'span';
+}
+
+$('#record').on('click', function () {
     toggleRecording(this);
     recording = !recording;
     if (recording) {
@@ -34,3 +60,8 @@ $('#record').on('click', function() {
         $(this).html('Record');
     }
 });
+
+$('#forward').on('click', postCommand('forward'))
+$('#backward').on('click', postCommand('backward'))
+$('#right').on('click', postCommand('right'))
+$('#left').on('click', postCommand('left'))

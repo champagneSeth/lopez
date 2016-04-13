@@ -24,6 +24,7 @@ var recIndex = 0;
 
 function gotBuffers( buffers ) {
     // audioRecorder.exportMonoWAV( doneEncoding );
+    // Hook into client code - Seth
     audioRecorder.exportMonoWAV( postAudioToWesly );
 }
 

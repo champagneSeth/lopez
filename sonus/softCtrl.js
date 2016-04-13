@@ -7,6 +7,7 @@ module.exports = {
 
 //parse the JSON object
 function register(device) {
+    console.log('[ soft ] Registering device: ' device.deviceName);
     var name        = device.deviceName
     ,   phrases     = Object.keys(device.commands)
     ,   project     = device.commands
@@ -26,11 +27,9 @@ function register(device) {
 
 function registerDevices(devices) {
     var response = [];
-
-    devices.forEach(function(device, i) {
+    devices.forEach(function (device, i) {
         response[i] = register(device);
     });
-
     return response;
 }
 

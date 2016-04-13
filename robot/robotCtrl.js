@@ -1,7 +1,7 @@
 var register = require('../sonus/softCtrl.js').register
 
 module.exports = {
-    execute : function(command, callBack) {
+    execute : function (command, callBack) {
         console.log('[ robot ] Robot do something: ' + command);
 
         callBack(true);

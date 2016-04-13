@@ -46,13 +46,13 @@ router.post('/audio', function (req, res) {
 
     fileName = __dirname + '/sonus/wav/' + fileName;
 
-    fs.writeFile(fileName, contents, 'binary', function(err) {
+    fs.writeFile(fileName, contents, 'binary', function (err) {
         if (err) {
             console.log('[ server ] ' + err);
         } else {
             console.log('[ server ] Audio received');
             softCtrl.recognize(fileName, robotCtrl.device, language, function (command) {
-                robotCtrl.execute(command, function(status) {
+                robotCtrl.execute(command, function (status) {
                     res.status(201).json({
                         status  : status
                     ,   message : status ? 'Robot works' : 'Something broke'
@@ -68,7 +68,7 @@ router.post('/command', function (req, res) {
     var command = req.body.command;
     console.log('[ server ] Command received: ' + command);
     
-    robotCtrl.execute(command, function(status) {
+    robotCtrl.execute(command, function (status) {
         res.status(201).json({
             status  : status
         ,   message : status ? 'Robot works' : 'Something broke'
