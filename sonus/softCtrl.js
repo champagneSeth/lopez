@@ -51,7 +51,7 @@ function recognize(fileName, device, language, callBack) {
         if (!success) callBack();
     }
 
-    console.log('\n[ soft ] ' + device.name);
+    console.log('[ soft ] ' + device.name);
 
     if (language == 'engl') {
         voconomo.english(fileName, checkResult);
