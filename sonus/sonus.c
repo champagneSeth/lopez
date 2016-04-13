@@ -50,14 +50,14 @@ int main(int argc, char *argv[]) {
     cmd_ln_t *config;
 
     // Configure recognizer for English or Spanish
-    if (strcmp(lang, "engl")) {
+    if (strcmp(lang, "engl") == 0) {
         config = cmd_ln_init(NULL, ps_args(), TRUE,
                 "-hmm",    MODELDIR "/en-us/en-us",
                 "-lm",     MODELDIR "/en-us/en-us.lm.bin",
                 "-dict",   MODELDIR "/en-us/cmudict-en-us.dict",
                 NULL);
 
-    } else if (strcmp(lang, "span")) {
+    } else if (strcmp(lang, "span") == 0) {
         printf("Not implemented\n");
         return 0;
     }
