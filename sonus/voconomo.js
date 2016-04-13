@@ -13,9 +13,6 @@ span.on('close', function (code) {
     console.log('[ voconomo ] Español recognizer sonus.o ended : ' + code);
 });
 
-engl.stdin.setEncoding('utf-8');
-span.stdin.setEncoding('utf-8');
-
 module.exports = {
     english     : english
 ,   spanish     : spanish
@@ -55,7 +52,7 @@ function downSample(wavFile, callBack) {
 }
 
 function recognize(child, callBack) {
-    child.stdout.on('data', function (data) {
+    child.stdout.on('readable', function (data) {
         var result = /\|([\w\s]+)\|/g.exec(data.toString());
 
         if (result && result.length) {
