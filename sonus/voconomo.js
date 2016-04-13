@@ -30,6 +30,7 @@ function downSample(wavFile, callBack) {
     ps.on('close', function (code) {
         console.log('\n[ voconomo ] Finished sox down sample with process ' + code + '\n\n');
         sickascii.sonus();
+        console.log('[ voconomo ] Recognizing file : ' + wavFile);
         recognize(downSampled);
     });
 }
@@ -37,7 +38,6 @@ function downSample(wavFile, callBack) {
 function recognize(downSampled) {
     var child = spawn(__dirname + '/sonus.o', [downSampled]);
 
-    console.log('[ voconomo ] Recognizing file : ' + wavFile);
     child.stdout.on('data', function (data) {
         var result = /\|([\w\s]+)\|/g.exec(data.toString());
 
