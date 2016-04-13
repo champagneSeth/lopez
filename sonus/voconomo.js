@@ -54,7 +54,7 @@ function downSample(wavFile, callBack) {
 function recognize(child, callBack) {
     console.log('[ voconomo ] Signaling recognizer');
 
-    child.stdout.on('readable', function (data) {
+    child.stdout.on('data', function (data) {
         var result = /\|([\w\s]+)\|/g.exec(data.toString());
         console.log('[ voconomo ] woo');
 

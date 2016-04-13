@@ -40,6 +40,9 @@ int processRaw(const char *rawFile) {
     hyp = ps_get_hyp(ps, &score);
     printf("Recognized: |%s|\n", hyp);
 
+    // Close file
+    fclose(fh);
+
     return 0;
 }
 
@@ -83,7 +86,6 @@ int main(int argc, char *argv[]) {
     }
 
     // free memory
-    fclose(fh);
     ps_free(ps);
     cmd_ln_free_r(config);
     
