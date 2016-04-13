@@ -13,12 +13,6 @@ span.on('close', function (code) {
     console.log('[ voconomo ] Español recognizer sonus.o ended : ' + code);
 });
 
-engl.stdout.on('data', function (data) {
-    console.log('woo');
-    console.log(data);
-});
-
-
 module.exports = {
     english     : english
 ,   spanish     : spanish
@@ -60,15 +54,15 @@ function downSample(wavFile, callBack) {
 function recognize(child, callBack) {
     console.log('[ voconomo ] Signaling recognizer');
 
-    // child.stdout.on('data', function (data) {
-    //     var result = /\|([\w\s]+)\|/g.exec(data.toString());
-    //     console.log('[ voconomo ] woo');
+    child.stdout.on('data', function (data) {
+        var result = /\|([\w\s]+)\|/g.exec(data.toString());
+        console.log('[ voconomo ] woo');
 
-    //     if (result && result.length) {
-    //         console.log('[ voconomo ] Result : ' + result[0]);
-    //         callBack(result[1]);
-    //     } else callBack('');
-    // });
+        if (result && result.length) {
+            console.log('[ voconomo ] Result : ' + result[0]);
+            callBack(result[1]);
+        } else callBack('');
+    });
 
     // Write '1' to recognize raw audio
     child.stdin.write('1\n');

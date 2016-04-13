@@ -39,6 +39,7 @@ int processRaw(const char *rawFile) {
     rv = ps_end_utt(ps);
     hyp = ps_get_hyp(ps, &score);
     printf("Recognized: |%s|\n", hyp);
+    fflush(stdout);
 
     // Close file
     fclose(fh);
@@ -76,6 +77,8 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Failed to create recognizer, see log for details\n");
         return -1;
     }
+
+    fflush(stdout);
 
     // Wait for signal from stdin
     while (1) {
