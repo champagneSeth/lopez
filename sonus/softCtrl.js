@@ -3,16 +3,18 @@ var voconomo = require('./voconomo.js');
 module.exports = {
     register    : register
 ,   recognize   : recognize
+,   shutdown    : voconomo.shutdown
 }
 
 //parse the JSON object
 function register(device) {
-    console.log('[ soft ] Registering device: ' + device.deviceName);
     var name        = device.deviceName
     ,   phrases     = Object.keys(device.commands)
     ,   project     = device.commands
     ,   commands    = []
     ;
+
+    console.log('[ soft ] Registering device: ' + device.deviceName);
 
     phrases.forEach(function (phrase) {
         commands.push(project[phrase]);
@@ -35,10 +37,9 @@ function registerDevices(devices) {
 
 // Run VoCoNoMo to recognize and return command
 function recognize(fileName, device, language, callBack) {
-    console.log('\n[ soft ] ' + device.name);
     var success = false;
-
-    function checkResult(result) {
+    
+    var checkResult = function (result) {
         device.phrases.forEach(function (phrase, i) {
             if (!success && result.search(phrase) != -1) {
                 success = true;
@@ -49,6 +50,8 @@ function recognize(fileName, device, language, callBack) {
 
         if (!success) callBack();
     }
+
+    console.log('\n[ soft ] ' + device.name);
 
     if (language == 'engl') {
         voconomo.english(fileName, checkResult);

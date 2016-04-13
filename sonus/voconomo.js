@@ -3,10 +3,16 @@ var spawn       = require('child_process').spawn
 ;
 
 var rawAudio = __dirname + '/sonus.raw';
+var enlg = spawn(__dirname + '/sonus.o', ['engl', rawAudio]);
+var span = spawn(__dirname + '/sonus.o', ['span', rawAudio]);
+
+engl.stdin.setEncoding('utf-8');
+span.stdin.setEncoding('utf-8');
 
 module.exports = {
-    english : english
-,   spanish : spanish
+    english     : english
+,   spanish     : spanish
+,   shutdown    : shutdown
 }
 
 function english(wavFile, callBack) {
@@ -14,13 +20,17 @@ function english(wavFile, callBack) {
     console.log('[ voconomo ] English');
     console.log('[ voconomo ] Recognizing file : ' + wavFile);
     downSample(wavFile, function () {
-        recognize(callBack);
+        recognize(engl, callBack);
     });
 }
 
 function spanish(wavFile, callBack) {
-    console.log('[ voconomo ] Spanish');
-    callBack();
+    sickascii.sonus();
+    console.log('[ voconomo ] Español');
+    console.log('[ voconomo ] Recognizing file : ' + wavFile);
+    downSample(wavFile, function () {
+        recognize(span, callBack);
+    });
 }
 
 function downSample(wavFile, callBack) {
@@ -32,14 +42,12 @@ function downSample(wavFile, callBack) {
     ]);
 
     ps.on('close', function (code) {
-        console.log('[ voconomo ] Finished sox down sample with process ' + code + '\n\n');
+        console.log('[ voconomo ] Finished sox down sample with process ' + code);
         callBack()
     });
 }
 
-function recognize(callBack) {
-    var child = spawn(__dirname + '/sonus.o', [rawAudio]);
-
+function recognize(child, callBack) {
     child.stdout.on('data', function (data) {
         var result = /\|([\w\s]+)\|/g.exec(data.toString());
 
@@ -49,7 +57,18 @@ function recognize(callBack) {
         } else callBack('');
     });
 
-    child.on('close', function (code) { 
-        console.log('\n[ voconomo ] Finished sonus.o with process ' + code);
-    });
+    child.stdin.write('GO');
+}
+
+function shutdown() {
+    console.log('[ voconomo ] Shutdown');
+    var close = function (code) { 
+        console.log('[ voconomo ] Finished sonus.o with process ' + code);
+    }
+
+    engl.on('close', close);
+    span.on('close', close);
+
+    engl.stdin.write('EXIT');
+    span.stdin.write('EXIT');
 }

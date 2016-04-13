@@ -89,9 +89,14 @@ app.use('/', router);
 // START THE SERVER
 // =============================================================================
 var server = http.createServer(app);
-
 server.listen(port);
+
 sickascii.wesely();
+console.log('Magic happens on port ' + port + '\n');
+console.log('[ server ] Lopez the bilingual robot (Ctrl-C to exit)')
 
-console.log('Magic happens on port ' + port);
-
+process.on('SIGINT', function() {
+    console.log('[ server ] Process exit');
+    softCtrl.shutdown();
+    process.exit( );
+})
