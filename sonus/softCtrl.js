@@ -6,27 +6,29 @@ module.exports = {
 }
 
 //parse the JSON object
-function register(data) {
-    var keys        = Object.keys(data.devices)
-    ,   response    = []
+function register(device) {
+    var name        = device.deviceName
+    ,   phrases     = Object.keys(device.commands)
+    ,   project     = devices.commands
+    ,   commands    = []
     ;
 
-    data.devices.forEach(function(device, i) {
-        var name        = device.deviceName
-        ,   phrases     = Object.keys(device.commands)
-        ,   project     = devices.commands
-        ,   commands    = []
-        ;
+    phrases.forEach(function (phrase) {
+        commands.push(project[phrase]);
+    })
 
-        phrases.forEach(function (phrase) {
-            commands.push(project[phrase]);
-        })
+    return {
+        name        : name
+    ,   phrases     : phrases
+    ,   commands    : commands 
+    }
+}
 
-        response[i] = {
-            name        : name
-        ,   phrases     : phrases
-        ,   commands    : commands 
-        }
+function registerDevices(devices) {
+    var response = [];
+
+    devices.forEach(function(device, i) {
+        response[i] = register(device);
     });
 
     return response;
