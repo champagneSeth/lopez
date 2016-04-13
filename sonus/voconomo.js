@@ -2,14 +2,20 @@ var spawn       = require('child_process').spawn
 ,   sickascii   = require('./sickascii.js')
 ;
 
+var rawAudio = __dirname + '/sonus.raw';
+
 module.exports = {
     english : english
 ,   spanish : spanish
 }
 
 function english(wavFile, callBack) {
+    sickascii.sonus();
     console.log('[ voconomo ] English');
-    downSample(wavFile, callBack);
+    console.log('[ voconomo ] Recognizing file : ' + wavFile);
+    downSample(wavFile, function () {
+        recognize(callBack);
+    });
 }
 
 function spanish(wavFile, callBack) {
@@ -18,25 +24,21 @@ function spanish(wavFile, callBack) {
 }
 
 function downSample(wavFile, callBack) {
-    var downSampled = __dirname + '/sonus.raw';
-
     ps = spawn('sox', [
         wavFile
     ,   '-r', '16k'
     ,   '-t', 'raw'
-    ,   downSampled
+    ,   rawAudio
     ]);
 
     ps.on('close', function (code) {
         console.log('\n[ voconomo ] Finished sox down sample with process ' + code + '\n\n');
-        sickascii.sonus();
-        console.log('[ voconomo ] Recognizing file : ' + wavFile);
-        recognize(downSampled);
+        callBack()
     });
 }
 
-function recognize(downSampled) {
-    var child = spawn(__dirname + '/sonus.o', [downSampled]);
+function recognize(callBack) {
+    var child = spawn(__dirname + '/sonus.o', [rawAudio]);
 
     child.stdout.on('data', function (data) {
         var result = /\|([\w\s]+)\|/g.exec(data.toString());
