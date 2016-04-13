@@ -3,7 +3,7 @@ var spawn       = require('child_process').spawn
 ;
 
 var rawAudio = __dirname + '/sonus.raw';
-var enlg = spawn(__dirname + '/sonus.o', ['engl', rawAudio]);
+var engl = spawn(__dirname + '/sonus.o', ['engl', rawAudio]);
 var span = spawn(__dirname + '/sonus.o', ['span', rawAudio]);
 
 engl.on('close', function (code) { 
