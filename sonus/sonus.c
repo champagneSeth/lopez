@@ -11,6 +11,8 @@
 ps_decoder_t *ps;   // decoder
 FILE *fh;           // audio file
 
+void processRaw(char *rawFile);
+
 int main(int argc, char *argv[]) {
     int go;
     const char *lang    = argv[1];
@@ -18,14 +20,14 @@ int main(int argc, char *argv[]) {
     cmd_ln_t *config;
 
     // Configure recognizer for English or Spanish
-    if (strcmp(lang, 'engl')) {
+    if (strcmp(lang, "engl")) {
         config = cmd_ln_init(NULL, ps_args(), TRUE,
                 "-hmm",    MODELDIR "/en-us/en-us",
                 "-lm",     MODELDIR "/en-us/en-us.lm.bin",
                 "-dict",   MODELDIR "/en-us/cmudict-en-us.dict",
                 NULL);
 
-    } else if (strcmp(lang, 'span')) {
+    } else if (strcmp(lang, "span")) {
         printf("Not implemented\n");
         return 0;
     }
