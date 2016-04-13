@@ -97,7 +97,7 @@ console.log('Magic happens on port ' + port + '\n');
 console.log('[ server ] Lopez the bilingual robot (Ctrl-C to exit)')
 
 process.on('SIGINT', function() {
-    console.log('[ server ] Process exit');
+    console.log('\n[ server ] Process exit');
     softCtrl.shutdown();
     process.exit( );
 })

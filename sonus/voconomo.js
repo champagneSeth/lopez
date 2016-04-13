@@ -65,7 +65,6 @@ function recognize(child, callBack) {
 
     // Write '1' to recognize raw audio
     child.stdin.write('1\n');
-    callBack('')
 }
 
 function shutdown() {
