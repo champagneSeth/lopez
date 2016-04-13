@@ -3,6 +3,7 @@ var fs          = require('fs')
 ,   express     = require('express')
 ,   bodyParser  = require('body-parser')
 ,   softCtrl    = require('./sonus/softCtrl.js')
+,   robotCtrl   = require('./robot/robotCtrl.js')
 ,   sickascii   = require('./sonus/sickascii.js')
 ;
 
@@ -32,33 +33,46 @@ var port = process.env.PORT || 9000;
 var router = express.Router();
 
 router.get('/', function (req, res) {
-    console.log('GET Success! status code 200');
+    console.log('[ server ] Control web page requested');
     res.status(200).sendfile('public/index.html');
 });
 
 //NOTE: This is the endpoint for passing data for the WAV/audio files
-router.post('/api/audio', function (req, res) {
-    var fileName    = req.body.fileName     || req.headers.filename
-    ,   contents    = req.body.file         || req.body
+router.post('/audio', function (req, res) {
+    var fileName    = req.body.fileName
+    ,   contents    = req.body.file
+    ,   language    = req.body.language
     ;
 
     fileName = __dirname + '/sonus/wav/' + fileName;
-    // devices = softCtrl.register(JSON.parse(userCommands));
-    devices = ['woo']
 
     fs.writeFile(fileName, contents, 'binary', function(err) {
         if (err) {
-            console.log(err);
+            console.log('[ server ] ' + err);
         } else {
-            console.log('Audio received');
-            softCtrl.getCommand(fileName, devices[0], function (command) {
-                res.status(201).json({
-                    success : true
-                ,   message : command ? 'Audio recieved' : 'No command recognized'
-                ,   command : command
-                }); 
+            console.log('[ server ] Audio received');
+            softCtrl.recognize(fileName, robotCtrl.device, language, function (command) {
+                robotCtrl.execute(command, function(status) {
+                    res.status(201).json({
+                        status  : status
+                    ,   message : status ? 'Robot works' : 'Something broke'
+                    }); 
+                });
             });
         }
+    });
+});
+
+router.post('/command', function (req, res) {
+    // left, right, forward, or backward
+    var command = req.body.command;
+    console.log('[ server ] Command received: ' + command);
+    
+    robotCtrl.execute(command, function(status) {
+        res.status(201).json({
+            status  : status
+        ,   message : status ? 'Robot works' : 'Something broke'
+        }); 
     });
 });
 
