@@ -86,6 +86,4 @@ void processRaw(char *rawFile) {
     rv = ps_end_utt(ps);
     hyp = ps_get_hyp(ps, &score);
     printf("Recognized: |%s|\n", hyp);
-
-
 }
