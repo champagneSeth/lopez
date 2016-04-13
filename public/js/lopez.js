@@ -14,8 +14,8 @@ reader.onloadend = function () {
     ,   contentType : 'application/json'
     ,   data        : JSON.stringify({
             fileName    : 'lopez.wav'
-        ,   file        : contents
         ,   language    : getLanguage()
+        ,   file        : contents
         })
 
     }).done(function (res) {

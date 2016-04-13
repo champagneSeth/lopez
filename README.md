@@ -7,6 +7,7 @@ This is a modified version of the [WeselyWebService](https://github.com/atreayou
 ### Project Dependencies:
 - [CMU Sphinx common libraries](https://github.com/cmusphinx/sphinxbase)
 - [PocketSphinx 5prealpha](https://github.com/cmusphinx/pocketsphinx)
+- [Sound eXchange](http://sox.sourceforge.net/)
 
 ## Basic Usage Instructions
 1. Project should be installed on a Raspberry Pi with wireless connectivity.
