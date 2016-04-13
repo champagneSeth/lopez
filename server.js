@@ -49,6 +49,7 @@ router.post('/audio', function (req, res) {
     fs.writeFile(fileName, contents, 'binary', function (err) {
         if (err) {
             console.log('[ server ] ' + err);
+            res.status(400).send('Audio not received')  
         } else {
             console.log('[ server ] Audio received');
             softCtrl.recognize(fileName, robotCtrl.device, language, function (command) {

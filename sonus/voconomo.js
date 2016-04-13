@@ -14,7 +14,7 @@ function english(wavFile, callBack) {
 
 function spanish(wavFile, callBack) {
     console.log('[ voconomo ] Spanish');
-    // body...
+    callBack();
 }
 
 function downSample(wavFile, callBack) {
