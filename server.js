@@ -53,12 +53,19 @@ router.post('/audio', function (req, res) {
         } else {
             console.log('[ server ] Audio received');
             softCtrl.recognize(fileName, robotCtrl.device, language, function (command) {
-                robotCtrl.execute(command, function (status) {
+                if (!command) {
                     res.status(201).json({
-                        status  : status
-                    ,   message : status ? 'Robot works' : 'Something broke'
-                    }); 
-                });
+                        status  : true
+                    ,   message : 'Command not recognized'
+                    });
+                } else {
+                    robotCtrl.execute(command, function (status) {
+                        res.status(201).json({
+                            status  : status
+                        ,   message : status ? 'Robot works' : 'Something broke'
+                        }); 
+                    });
+                }
             });
         }
     });
