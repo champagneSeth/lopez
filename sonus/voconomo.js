@@ -6,6 +6,13 @@ var rawAudio = __dirname + '/sonus.raw';
 var enlg = spawn(__dirname + '/sonus.o', ['engl', rawAudio]);
 var span = spawn(__dirname + '/sonus.o', ['span', rawAudio]);
 
+engl.on('close', function (code) { 
+    console.log('[ voconomo ] English recognizer sonus.o ended : ' + code);
+});
+span.on('close', function (code) { 
+    console.log('[ voconomo ] Español recognizer sonus.o ended : ' + code);
+});
+
 engl.stdin.setEncoding('utf-8');
 span.stdin.setEncoding('utf-8');
 
@@ -62,13 +69,6 @@ function recognize(child, callBack) {
 
 function shutdown() {
     console.log('[ voconomo ] Shutdown');
-    var close = function (code) { 
-        console.log('[ voconomo ] Finished sonus.o with process ' + code);
-    }
-
-    engl.on('close', close);
-    span.on('close', close);
-
     engl.stdin.write('EXIT');
     span.stdin.write('EXIT');
 }
