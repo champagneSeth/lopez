@@ -1,10 +1,15 @@
 var spawn       = require('child_process').spawn
 ,   sickascii   = require('./sickascii.js')
+,   rawAudio    = __dirname + '/sonus.raw'
+,   engl        = spawn(__dirname + '/sonus.o', ['engl', rawAudio])
+,   span        = spawn(__dirname + '/sonus.o', ['span', rawAudio])
 ;
 
-var rawAudio = __dirname + '/sonus.raw';
-var engl = spawn(__dirname + '/sonus.o', ['engl', rawAudio]);
-var span = spawn(__dirname + '/sonus.o', ['span', rawAudio]);
+module.exports = {
+    english     : english
+,   spanish     : spanish
+,   shutdown    : shutdown
+}
 
 engl.on('close', function (code) { 
     console.log('[ voconomo ] English recognizer sonus.o ended : ' + code);
@@ -12,12 +17,6 @@ engl.on('close', function (code) {
 span.on('close', function (code) { 
     console.log('[ voconomo ] Español recognizer sonus.o ended : ' + code);
 }).stdout.setEncoding('utf8');
-
-module.exports = {
-    english     : english
-,   spanish     : spanish
-,   shutdown    : shutdown
-}
 
 function english(wavFile, callBack) {
     sickascii.sonus();
