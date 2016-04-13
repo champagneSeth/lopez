@@ -9,7 +9,7 @@ module.exports = {
 function register(device) {
     var name        = device.deviceName
     ,   phrases     = Object.keys(device.commands)
-    ,   project     = devices.commands
+    ,   project     = device.commands
     ,   commands    = []
     ;
 
