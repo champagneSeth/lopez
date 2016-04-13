@@ -52,8 +52,11 @@ function downSample(wavFile, callBack) {
 }
 
 function recognize(child, callBack) {
+    console.log('[ voconomo ] Signaling recognizer');
+
     child.stdout.on('readable', function (data) {
         var result = /\|([\w\s]+)\|/g.exec(data.toString());
+        console.log('[ voconomo ] woo');
 
         if (result && result.length) {
             console.log('[ voconomo ] Result : ' + result[0]);
@@ -62,12 +65,12 @@ function recognize(child, callBack) {
     });
 
     // Write '1' to recognize raw audio
-    child.stdin.write('1');
+    child.stdin.write('1\n');
 }
 
 function shutdown() {
     console.log('[ voconomo ] Shutdown');
     // Write '0' for exit
-    engl.stdin.write('0');
-    span.stdin.write('0');
+    engl.stdin.write('0\n');
+    span.stdin.write('0\n');
 }
