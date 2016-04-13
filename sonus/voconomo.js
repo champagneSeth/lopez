@@ -55,15 +55,17 @@ function recognize(child, callBack) {
     console.log('[ voconomo ] Signaling recognizer');
 
     child.stdout.removeAllListeners().on('readable', function () {
-        var data = child.stdout.read();
-        var result = /\|([\w\s]*)\|/g.exec(data);
-        
-        console.log('[ voconomo ] Received response : ' + data);
+        var data    = child.stdout.read();
+        ,   result  = /\|([\w\s]*)\|/g.exec(data)
+        ;
 
         if (result && result.length) {
             console.log('[ voconomo ] Result : ' + result[0]);
             callBack(result[1]);
-        } else callBack('');
+        } else {
+            console.log('[ voconomo ] No Command recognized');
+            callBack('');
+        }
     });
 
     // Write '1' to recognize raw audio

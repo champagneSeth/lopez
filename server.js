@@ -54,7 +54,6 @@ router.post('/audio', function (req, res) {
             console.log('[ server ] Audio received');
             softCtrl.recognize(fileName, robotCtrl.device, language, function (command) {
                 if (!command) {
-                    console.log('[ server ] No Command recognized');
                     res.status(201).json({
                         status  : true
                     ,   message : 'Command not recognized'
@@ -63,6 +62,7 @@ router.post('/audio', function (req, res) {
                     robotCtrl.execute(command, function (status) {
                         res.status(201).json({
                             status  : status
+                        ,   command : command
                         ,   message : status ? 'Robot works' : 'Something broke'
                         }); 
                     });
@@ -80,6 +80,7 @@ router.post('/command', function (req, res) {
     robotCtrl.execute(command, function (status) {
         res.status(201).json({
             status  : status
+        ,   command : command
         ,   message : status ? 'Robot works' : 'Something broke'
         }); 
     });
