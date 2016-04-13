@@ -8,10 +8,10 @@ var span = spawn(__dirname + '/sonus.o', ['span', rawAudio]);
 
 engl.on('close', function (code) { 
     console.log('[ voconomo ] English recognizer sonus.o ended : ' + code);
-});
+}).stdout.setEncoding('utf8');
 span.on('close', function (code) { 
     console.log('[ voconomo ] Español recognizer sonus.o ended : ' + code);
-});
+}).stdout.setEncoding('utf8');
 
 module.exports = {
     english     : english
@@ -55,7 +55,8 @@ function recognize(child, callBack) {
     console.log('[ voconomo ] Signaling recognizer');
 
     child.stdout.removeAllListeners().on('data', function (data) {
-        var result = /\|([\w\s]+)\|/g.exec(data.toString());
+        var result = /\|([\w\s]*)\|/g.exec(data);
+        console.log('[ voconomo ] Received response')
 
         if (result && result.length) {
             console.log('[ voconomo ] Result : ' + result[0]);
