@@ -64,11 +64,13 @@ function recognize(child, callBack) {
         } else callBack('');
     });
 
-    child.stdin.write('GO');
+    // Write '1' to recognize raw audio
+    child.stdin.write('1');
 }
 
 function shutdown() {
     console.log('[ voconomo ] Shutdown');
-    engl.stdin.write('EXIT');
-    span.stdin.write('EXIT');
+    // Write '0' for exit
+    engl.stdin.write('0');
+    span.stdin.write('0');
 }

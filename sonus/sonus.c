@@ -1,26 +1,34 @@
-/*  Team Sonus - 2015
+/*  Team Sonus - 2016
  *  ------------------------------------------------------------
  *  Uses CMU pocketsphinx to reconize voice commands
- *  Recieves a path to a wav file as argv
- *  Writes the recognized string to stdout and to commands.log
+ *  Language is set via arg[1]
+ *  Recieves a path to a raw file as arg[2]
+ *  Writes the recognized string to stdout, delimitted by |string|
  */
 #include <stdio.h>
 #include <pocketsphinx.h>
 
-int main(int argc, char *argv[]) {
-    ps_decoder_t *ps;
-    cmd_ln_t *config;
-    FILE *fh;
-    char const *hyp, *uttid;
-    int16 buf[512];
-    int rv;
-    int32 score;
+ps_decoder_t *ps;   // decoder
+FILE *fh;           // audio file
 
-    config = cmd_ln_init(NULL, ps_args(), TRUE,
-            "-hmm",    MODELDIR "/en-us/en-us",
-            "-lm",     MODELDIR "/en-us/en-us.lm.bin",
-            "-dict",   MODELDIR "/en-us/cmudict-en-us.dict",
-            NULL);
+int main(int argc, char *argv[]) {
+    int go;
+    const char *lang    = argv[1];
+    const char *rawFile = argv[2];
+    cmd_ln_t *config;
+
+    // Configure recognizer for English or Spanish
+    if (strcmp(lang, 'engl')) {
+        config = cmd_ln_init(NULL, ps_args(), TRUE,
+                "-hmm",    MODELDIR "/en-us/en-us",
+                "-lm",     MODELDIR "/en-us/en-us.lm.bin",
+                "-dict",   MODELDIR "/en-us/cmudict-en-us.dict",
+                NULL);
+
+    } else if (strcmp(lang, 'span')) {
+        printf("Not implemented\n");
+        return 0;
+    }
 
     if (config == NULL) {
         fprintf(stderr, "Failed to create config object, see log for details\n");
@@ -34,11 +42,33 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
+    // Wait for signal from stdin
+    while (1) {
+        scanf("%d", &go);
+        if (go) {
+            processRaw(rawFile);
+        } else break;
+    }
+
+    // free memory
+    fclose(fh);
+    ps_free(ps);
+    cmd_ln_free_r(config);
+    
+    return 0;
+}
+
+void processRaw(char *rawFile) {
+    const char *hyp, *uttid;
+    int16 buf[512];
+    int rv;
+    int32 score;
+
     // Open the wav file passed from argument
-    printf("file: %s\n", argv[1]);
-    fh = fopen(argv[1], "rb");
+    printf("file: %s\n", rawFile);
+    fh = fopen(rawFile, "rb");
     if (fh == NULL) {
-        fprintf(stderr, "Unable to open input file %s\n", argv[1]);
+        fprintf(stderr, "Unable to open input file %s\n", rawFile);
         return -1;
     }
 
@@ -57,10 +87,5 @@ int main(int argc, char *argv[]) {
     hyp = ps_get_hyp(ps, &score);
     printf("Recognized: |%s|\n", hyp);
 
-    // free memory
-    fclose(fh);
-    ps_free(ps);
-    cmd_ln_free_r(config);
-    
-    return 0;
+
 }
