@@ -11,7 +11,37 @@
 ps_decoder_t *ps;   // decoder
 FILE *fh;           // audio file
 
-void processRaw(char *rawFile);
+int processRaw(const char *rawFile) {
+    const char *hyp, *uttid;
+    int16 buf[512];
+    int rv;
+    int32 score;
+
+    // Open the wav file passed from argument
+    printf("file: %s\n", rawFile);
+    fh = fopen(rawFile, "rb");
+    if (fh == NULL) {
+        fprintf(stderr, "Unable to open input file %s\n", rawFile);
+        return -1;
+    }
+
+    // Start utterance
+    rv = ps_start_utt(ps);
+    
+    // Process buffer, 512 samples at a time
+    while (!feof(fh)) {
+        size_t nsamp;
+        nsamp = fread(buf, 2, 512, fh);
+        rv = ps_process_raw(ps, buf, nsamp, FALSE, FALSE);
+    }
+    
+    // Recieve the recognized string
+    rv = ps_end_utt(ps);
+    hyp = ps_get_hyp(ps, &score);
+    printf("Recognized: |%s|\n", hyp);
+
+    return 0;
+}
 
 int main(int argc, char *argv[]) {
     int go;
@@ -58,34 +88,4 @@ int main(int argc, char *argv[]) {
     cmd_ln_free_r(config);
     
     return 0;
-}
-
-void processRaw(char *rawFile) {
-    const char *hyp, *uttid;
-    int16 buf[512];
-    int rv;
-    int32 score;
-
-    // Open the wav file passed from argument
-    printf("file: %s\n", rawFile);
-    fh = fopen(rawFile, "rb");
-    if (fh == NULL) {
-        fprintf(stderr, "Unable to open input file %s\n", rawFile);
-        return -1;
-    }
-
-    // Start utterance
-    rv = ps_start_utt(ps);
-    
-    // Process buffer, 512 samples at a time
-    while (!feof(fh)) {
-        size_t nsamp;
-        nsamp = fread(buf, 2, 512, fh);
-        rv = ps_process_raw(ps, buf, nsamp, FALSE, FALSE);
-    }
-    
-    // Recieve the recognized string
-    rv = ps_end_utt(ps);
-    hyp = ps_get_hyp(ps, &score);
-    printf("Recognized: |%s|\n", hyp);
 }
