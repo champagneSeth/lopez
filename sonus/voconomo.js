@@ -32,7 +32,7 @@ function downSample(wavFile, callBack) {
     ]);
 
     ps.on('close', function (code) {
-        console.log('\n[ voconomo ] Finished sox down sample with process ' + code + '\n\n');
+        console.log('[ voconomo ] Finished sox down sample with process ' + code + '\n\n');
         callBack()
     });
 }

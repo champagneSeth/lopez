@@ -38,7 +38,7 @@ function recognize(fileName, device, language, callBack) {
     console.log('\n[ soft ] ' + device.name);
     var success = false;
 
-    function checkResult(result, callBack) {
+    function checkResult(result) {
         device.phrases.forEach(function (phrase, i) {
             if (!success && result.search(phrase) != -1) {
                 success = true;
