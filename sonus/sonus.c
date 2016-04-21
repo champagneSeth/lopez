@@ -62,7 +62,11 @@ int main(int argc, char *argv[]) {
                 NULL);
 
     } else if (strcmp(lang, "span") == 0) {
-        printf("Not implemented\n");
+        config = cmd_ln_init(NULL, ps_args(), TRUE,
+                "-hmm",     "/home/pi/es_MX_broadcast_cont_2500/model_parameters/hub4_spanish_itesm.cd_cont_2500",
+                "-lm",      "/home/pi/es_MX_broadcast_cont_2500/etc/H4.arpa.Z.DMP",
+                "-dict",    "/home/pi/es_MX_broadcast_cont_2500/etc/h4.dict",
+                NULL);
         return 0;
     }
 
