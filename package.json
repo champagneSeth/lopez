@@ -3,15 +3,14 @@
   "description": "Voice controlled bilingual robot.",
   "author": "OVER 9PAO-SAND",
   "license": "MIT",
-  "repository": 
-  {
+  "repository": {
     "type": "git",
     "url": "https://github.com/champagneSeth/lopez"
   },
   "main": "server.js",
-  "dependencies": 
-  {
+  "dependencies": {
     "body-parser": "~1.14.1",
-    "express": "~4.0.0"
+    "express": "~4.0.0",
+    "onoff": "^1.0.4"
   }
 }
