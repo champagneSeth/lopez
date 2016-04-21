@@ -67,7 +67,6 @@ int main(int argc, char *argv[]) {
                 "-lm",      "/home/pi/es_MX_broadcast_cont_2500/etc/H4.arpa.Z.DMP",
                 "-dict",    "/home/pi/es_MX_broadcast_cont_2500/etc/h4.dict",
                 NULL);
-        return 0;
     }
 
     if (config == NULL) {
