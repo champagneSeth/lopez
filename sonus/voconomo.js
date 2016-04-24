@@ -6,8 +6,8 @@ var spawn       = require('child_process').spawn
 ;
 
 module.exports = {
-    english     : english
-,   spanish     : spanish
+    english     : setRecognizer('English', engl)
+,   spanish     : setRecognizer('Español', span)
 ,   shutdown    : shutdown
 }
 
@@ -18,22 +18,15 @@ span.on('close', function (code) {
     console.log('[ voconomo ] Español recognizer sonus.o ended : ' + code);
 }).stdout.setEncoding('utf8');
 
-function english(wavFile, callBack) {
-    sickascii.sonus();
-    console.log('[ voconomo ] English');
-    console.log('[ voconomo ] Recognizing file : ' + wavFile);
-    downSample(wavFile, function () {
-        recognize(engl, callBack);
-    });
-}
-
-function spanish(wavFile, callBack) {
-    sickascii.sonus();
-    console.log('[ voconomo ] Español');
-    console.log('[ voconomo ] Recognizing file : ' + wavFile);
-    downSample(wavFile, function () {
-        recognize(span, callBack);
-    });
+function setRecognizer(language, recognizer) {
+    return function (wavFile, callBack) {
+        sickascii.sonus();
+        console.log('[ voconomo ] ' + language);
+        console.log('[ voconomo ] Recognizing file : ' + wavFile);
+        downSample(wavFile, function () {
+            recognize(recognizer, callBack);
+        });
+    }
 }
 
 function downSample(wavFile, callBack) {

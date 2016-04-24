@@ -48,7 +48,7 @@ int processRaw(const char *rawFile) {
 }
 
 int main(int argc, char *argv[]) {
-    int go;
+    int go = 1;
     const char *lang    = argv[1];
     const char *rawFile = argv[2];
     cmd_ln_t *config;
@@ -84,11 +84,9 @@ int main(int argc, char *argv[]) {
     fflush(stdout);
 
     // Wait for signal from stdin
-    while (1) {
+    while (go) {
         scanf("%d", &go);
-        if (go) {
-            processRaw(rawFile);
-        } else break;
+        processRaw(rawFile);
     }
 
     // free memory

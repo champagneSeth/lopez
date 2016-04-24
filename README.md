@@ -8,7 +8,7 @@ This is a modified version of the [WeselyWebService](https://github.com/atreayou
 - [CMU Sphinx common libraries](https://github.com/cmusphinx/sphinxbase)
 - [PocketSphinx 5prealpha](https://github.com/cmusphinx/pocketsphinx)
 - [Sound eXchange](http://sox.sourceforge.net/)
-- [Spanish Voxforge Model](https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/Spanish%20Voxforge/) *Required for Spanish commands
+- [Mexican Broadcast News Language Model](https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/Mexican%20Spanish%20Broadcast%20News/) *Required for Spanish commands
 
 ## Basic Usage Instructions
 1. Project should be installed on a Raspberry Pi with wireless connectivity.
