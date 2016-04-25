@@ -12,8 +12,8 @@ var definition = {
     }
 }
 
-var rf1 = new Gpio (16, 'out');
-var rf2 = new Gpio (20, 'out');
+var rf1 = new Gpio (20, 'out');
+var rf2 = new Gpio (16, 'out');
 var rfe = new Gpio (26, 'out');
 
 var rb1 = new Gpio (24, 'out');
