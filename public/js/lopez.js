@@ -20,6 +20,7 @@ reader.onloadend = function () {
 
     }).done(function (res) {
         console.log(res.message);
+        $('#result').text(res.command);
     });
 }
 
@@ -43,6 +44,7 @@ function postCommand(command) {
 
         }).done(function (res) {
             console.log(res.message);
+            $('#result').text(res.command);
         });
     }
 }

@@ -47,7 +47,7 @@ function recognize(child, callBack) {
     console.log('[ voconomo ] Signaling recognizer');
 
     child.stdout.removeAllListeners().on('readable', function () {
-        var data    = child.stdout.read()
+        var data    = child.stdout.read().toLowerCase()
         ,   result  = /\|([\w\s]*)\|/g.exec(data)
         ;
 

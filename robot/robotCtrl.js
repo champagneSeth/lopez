@@ -1,14 +1,29 @@
-var register    = require('../sonus/softCtrl.js').register
-,   Gpio        = require('onoff').Gpio
-;
+var Gpio  = require('onoff').Gpio;
+var delay = 1000;
 
 var definition = {
     deviceName  : 'lopez',
     commands    : {
-        'right'     : 'right',
-        'left'      : 'left',
-        'forward'   : 'forward',
-        'backward'  : 'backward'
+        'right'     : 'right'
+    ,   'east'      : 'right'
+    ,   'derecha'   : 'right'
+    ,   'shake'     : 'right'
+
+    ,   'left'      : 'left'
+    ,   'west'      : 'left'
+    ,   'izquierda' : 'left'
+    ,   'bake'      : 'left'
+
+    ,   'forward'   : 'forward'
+    ,   'north'     : 'forward'
+    ,   'adelante'  : 'forward'
+    ,   'move'      : 'forward'
+    ,   'vamos'     : 'forward'
+
+    ,   'back'      : 'backward'
+    ,   'south'     : 'backward'
+    ,   'atras'     : 'backward'
+
     }
 }
 
@@ -35,8 +50,8 @@ lbe.write(1, check);
 
 
 module.exports = {
-    execute : robotMove,
-    device  : register(definition),
+    execute  : robotMove,
+    device   : definition,
     shutdown : unexport   
 }
 
@@ -59,6 +74,7 @@ function robotMove(command, callBack) {
         irAtras();
     } else {
         callBack(false);
+        return;
     }
 
     callBack(true);
@@ -74,7 +90,7 @@ function girarIzquierda() {
         lf2.write(0, check);
         rb1.write(0, check);
         lb2.write(0, check);
-    }, 2000);
+    }, delay);
 }
 
 function girarDerecha() {
@@ -87,7 +103,7 @@ function girarDerecha() {
         lf1.write(0, check);
         rb2.write(0, check);
         lb1.write(0, check);
-    }, 2000);
+    }, delay);
 }
 
 function irAdelante() {
@@ -100,7 +116,7 @@ function irAdelante() {
         lf1.write(0, check);
         rb1.write(0, check);
         lb1.write(0, check);
-    }, 2000);
+    }, delay);
 }
 
 function irAtras() {
@@ -113,7 +129,7 @@ function irAtras() {
         lf2.write(0, check);
         rb2.write(0, check);
         lb2.write(0, check);
-    }, 2000);
+    }, delay);
 }
 
 function unexport() {

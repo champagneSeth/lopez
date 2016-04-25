@@ -9,6 +9,8 @@ var fs          = require('fs')
 
 var app = express();
 
+var robot = softCtrl.register(robotCtrl.device);
+
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -52,7 +54,7 @@ router.post('/audio', function (req, res) {
             res.status(400).send('Audio not received')  
         } else {
             console.log('[ server ] Audio received');
-            softCtrl.recognize(fileName, robotCtrl.device, language, function (command) {
+            softCtrl.recognize(fileName, robot, language, function (command) {
                 if (!command) {
                     res.status(201).json({
                         status  : true

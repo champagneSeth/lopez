@@ -84,9 +84,12 @@ int main(int argc, char *argv[]) {
     fflush(stdout);
 
     // Wait for signal from stdin
-    while (go) {
+    while (1) {
+        // Waiting for command
         scanf("%d", &go);
-        processRaw(rawFile);
+        if (go) {
+            processRaw(rawFile);
+        } else break;
     }
 
     // free memory
