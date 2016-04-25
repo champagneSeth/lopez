@@ -20,7 +20,7 @@ reader.onloadend = function () {
 
     }).done(function (res) {
         console.log(res.message);
-        if (command) {
+        if (res.command) {
             $('#result').text(res.command);
         } else {
             $('#result').text('no command');
