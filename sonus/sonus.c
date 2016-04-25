@@ -48,7 +48,7 @@ int processRaw(const char *rawFile) {
 }
 
 int main(int argc, char *argv[]) {
-    int go;
+    int go = 1;
     const char *lang    = argv[1];
     const char *rawFile = argv[2];
     cmd_ln_t *config;
@@ -62,8 +62,11 @@ int main(int argc, char *argv[]) {
                 NULL);
 
     } else if (strcmp(lang, "span") == 0) {
-        printf("Not implemented\n");
-        return 0;
+        config = cmd_ln_init(NULL, ps_args(), TRUE,
+                "-hmm",     "/home/pi/es_MX_broadcast_cont_2500/model_parameters/hub4_spanish_itesm.cd_cont_2500",
+                "-lm",      "/home/pi/es_MX_broadcast_cont_2500/etc/H4.arpa.Z.DMP",
+                "-dict",    "/home/pi/es_MX_broadcast_cont_2500/etc/h4.dict",
+                NULL);
     }
 
     if (config == NULL) {
@@ -81,11 +84,9 @@ int main(int argc, char *argv[]) {
     fflush(stdout);
 
     // Wait for signal from stdin
-    while (1) {
+    while (go) {
         scanf("%d", &go);
-        if (go) {
-            processRaw(rawFile);
-        } else break;
+        processRaw(rawFile);
     }
 
     // free memory

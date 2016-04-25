@@ -1,39 +1,32 @@
 var spawn       = require('child_process').spawn
 ,   sickascii   = require('./sickascii.js')
 ,   rawAudio    = __dirname + '/sonus.raw'
-,   engl        = null // spawn(__dirname + '/sonus.o', ['engl', rawAudio])
-,   span        = null //spawn(__dirname + '/sonus.o', ['span', rawAudio])
+,   engl        = spawn(__dirname + '/sonus.o', ['engl', rawAudio])
+,   span        = spawn(__dirname + '/sonus.o', ['span', rawAudio])
 ;
 
 module.exports = {
-    english     : english
-,   spanish     : spanish
+    english     : setRecognizer('English', engl)
+,   spanish     : setRecognizer('Español', span)
 ,   shutdown    : shutdown
 }
 
-// engl.on('close', function (code) { 
-//     console.log('[ voconomo ] English recognizer sonus.o ended : ' + code);
-// }).stdout.setEncoding('utf8');
-// span.on('close', function (code) { 
-//     console.log('[ voconomo ] Español recognizer sonus.o ended : ' + code);
-// }).stdout.setEncoding('utf8');
+engl.on('close', function (code) { 
+    console.log('[ voconomo ] English recognizer sonus.o ended : ' + code);
+}).stdout.setEncoding('utf8');
+span.on('close', function (code) { 
+    console.log('[ voconomo ] Español recognizer sonus.o ended : ' + code);
+}).stdout.setEncoding('utf8');
 
-function english(wavFile, callBack) {
-    sickascii.sonus();
-    console.log('[ voconomo ] English');
-    console.log('[ voconomo ] Recognizing file : ' + wavFile);
-    downSample(wavFile, function () {
-        recognize(engl, callBack);
-    });
-}
-
-function spanish(wavFile, callBack) {
-    sickascii.sonus();
-    console.log('[ voconomo ] Español');
-    console.log('[ voconomo ] Recognizing file : ' + wavFile);
-    downSample(wavFile, function () {
-        recognize(span, callBack);
-    });
+function setRecognizer(language, recognizer) {
+    return function (wavFile, callBack) {
+        sickascii.sonus();
+        console.log('[ voconomo ] ' + language);
+        console.log('[ voconomo ] Recognizing file : ' + wavFile);
+        downSample(wavFile, function () {
+            recognize(recognizer, callBack);
+        });
+    }
 }
 
 function downSample(wavFile, callBack) {
@@ -75,5 +68,5 @@ function shutdown() {
     console.log('[ voconomo ] Shutdown');
     // Write '0' for exit
     engl.stdin.write('0\n');
-    // span.stdin.write('0\n');
+    span.stdin.write('0\n');
 }
