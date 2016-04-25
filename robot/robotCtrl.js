@@ -12,21 +12,21 @@ var definition = {
     }
 }
 
-var rf1 = new Gpio (20, 'out');
-var rf2 = new Gpio (16, 'out');
+var rf1 = new Gpio (16, 'out');
+var rf2 = new Gpio (20, 'out');
 var rfe = new Gpio (26, 'out');
 
 var rb1 = new Gpio (24, 'out');
 var rb2 = new Gpio (23, 'out');
 var rbe = new Gpio (25, 'out');
 
-var lf1 = new Gpio (9, 'out');
-var lf2 = new Gpio (10, 'out');
+var lf1 = new Gpio (10, 'out');
+var lf2 = new Gpio (9, 'out');
 var lfe = new Gpio (11, 'out');
 
 var lb1 = new Gpio (19, 'out');
 var lb2 = new Gpio (13, 'out');
-var lbe = new Gpio (26, 'out');
+var lbe = new Gpio (21, 'out');
 
 rfe.write(1, check);
 rbe.write(1, check);
