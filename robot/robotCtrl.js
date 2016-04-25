@@ -1,7 +1,6 @@
 var register    = require('../sonus/softCtrl.js').register
-,   Gpio        = require('onoff')
+,   Gpio        = require('onoff').Gpio
 ;
-
 
 var definition = {
     deviceName  : 'lopez',
@@ -21,9 +20,9 @@ var rb1 = new Gpio (24, 'out');
 var rb2 = new Gpio (23, 'out');
 var rbe = new Gpio (25, 'out');
 
-var lf1 = new Gpio (19, 'out');
-var lf2 = new Gpio (13, 'out');
-var lfe = new Gpio (26, 'out');
+var lf1 = new Gpio (9, 'out');
+var lf2 = new Gpio (10, 'out');
+var lfe = new Gpio (11, 'out');
 
 var lb1 = new Gpio (19, 'out');
 var lb2 = new Gpio (13, 'out');
