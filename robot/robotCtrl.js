@@ -64,7 +64,7 @@ function robotMove(command, callBack) {
     callBack(true);
 }
 
-function girarDerecha() {
+function girarIzquierda() {
     rf1.write(1, check);
     lf2.write(1, check);
     rb1.write(1, check);
@@ -77,7 +77,7 @@ function girarDerecha() {
     }, 2000);
 }
 
-function girarIzquierda() {
+function girarDerecha() {
     rf2.write(1, check);
     lf1.write(1, check);
     rb2.write(1, check);
