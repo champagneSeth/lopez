@@ -102,5 +102,6 @@ console.log('[ server ] Lopez the bilingual robot (Ctrl-C to exit)')
 process.on('SIGINT', function() {
     console.log('\n[ server ] Process exit');
     softCtrl.shutdown();
+    robotCtrl.shutdown();
     process.exit( );
 })
